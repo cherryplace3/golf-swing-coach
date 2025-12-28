@@ -385,27 +385,44 @@ if uploaded_file is not None:
             signals = _compute_signals(frames_landmarks=frames_landmarks, fps=fps)
             report = _build_report(signals)
 
-            st.markdown("### 🧠 Swing Overview")
-            st.write(report["overview"])
+            overview = report["overview"]
+            setup_feedback = report["setup_bullets"]
+            tempo_label = report["tempo_label"]
+            tempo_feedback = report["tempo_bullets"]
+            motion_cues = report["motion_bullets"]
+            drill = report["drill"]
+            positive = report["positive"]
 
-            st.markdown("### ✅ Coaching Notes")
-            st.markdown("### Setup")
-            for sentence in report["setup_bullets"]:
-                st.markdown(f"- {sentence}")
+            st.info(f"📊 **SWING OVERVIEW:** {overview}")
+            st.markdown("---")
 
-            st.markdown(f"### Tempo: {report['tempo_label']}")
-            for sentence in report["tempo_bullets"]:
-                st.markdown(f"- {sentence}")
+            with st.container():
+                st.warning("⚠️ **SETUP - Needs Work**")
+                for bullet in setup_feedback:
+                    st.write(f"• {bullet}")
 
-            st.markdown("### Motion Cues")
-            for sentence in report["motion_bullets"]:
-                st.markdown(f"- {sentence}")
+            st.markdown("---")
 
-            st.markdown("### Recommended Drill")
-            st.markdown(f"- {report['drill']}")
+            with st.container():
+                st.info(f"⏱️ **TEMPO: {tempo_label}**")
+                for bullet in tempo_feedback:
+                    st.write(f"• {bullet}")
 
-            st.markdown("### You're doing well")
-            st.markdown(f"- {report['positive']}")
+            st.markdown("---")
+
+            with st.container():
+                st.info("🎯 **MOTION CUES**")
+                for cue in motion_cues:
+                    st.write(f"• {cue}")
+
+            st.markdown("---")
+
+            st.markdown("### 💡 Recommended Drill")
+            st.write(drill)
+
+            st.markdown("---")
+
+            st.success(f"✅ **YOU'RE DOING WELL:** {positive}")
         st.success("✅ Analysis complete!")
     # Cleanup temp file best-effort (Streamlit can rerun; keep only if still needed).
     try:
