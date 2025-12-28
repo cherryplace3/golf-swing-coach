@@ -374,8 +374,10 @@ if uploaded_file is not None:
     tfile.write(uploaded_file.read())
     video_path = tfile.name
     
-    st.subheader("📹 Your Swing")
-    st.video(video_path)
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.subheader("📹 Your Swing")
+        st.video(video_path)
     
     if st.button("🔍 Analyze Swing", type="primary"):
         with st.spinner("Analyzing your swing..."):
@@ -387,22 +389,22 @@ if uploaded_file is not None:
             st.write(report["overview"])
 
             st.markdown("### ✅ Coaching Notes")
-            st.markdown("#### Setup")
+            st.markdown("### Setup")
             for sentence in report["setup_bullets"]:
                 st.markdown(f"- {sentence}")
 
-            st.markdown(f"#### Tempo: {report['tempo_label']}")
+            st.markdown(f"### Tempo: {report['tempo_label']}")
             for sentence in report["tempo_bullets"]:
                 st.markdown(f"- {sentence}")
 
-            st.markdown("#### Motion Cues")
+            st.markdown("### Motion Cues")
             for sentence in report["motion_bullets"]:
                 st.markdown(f"- {sentence}")
 
-            st.markdown("#### Drill")
+            st.markdown("### Recommended Drill")
             st.markdown(f"- {report['drill']}")
 
-            st.markdown("#### Positive")
+            st.markdown("### You're doing well")
             st.markdown(f"- {report['positive']}")
         st.success("✅ Analysis complete!")
     # Cleanup temp file best-effort (Streamlit can rerun; keep only if still needed).
